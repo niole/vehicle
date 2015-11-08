@@ -13,6 +13,6 @@ $(document).ready(() => {
   const updateFreq = 100;
 
   const vehicle = new VehicleDrawer(width, height, maxVel, updateFreq);
-  vehicle.drawVehicle(vehicle.car.pos);
+  vehicle.drawVehicle(vehicle.car);
 })()
 });

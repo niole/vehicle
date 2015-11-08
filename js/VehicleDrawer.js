@@ -12,7 +12,7 @@ class VehicleDrawer {
     this.appendRect(width, height);
     this.interval = setInterval(() => {
       draw.car.updateVehicleState(draw.height, draw.width);
-      draw.drawVehicle(draw.car.pos)
+      draw.drawVehicle(draw.car)//draw.car.pos)
     }, 1000/updateFreq);
   }
 
@@ -43,14 +43,16 @@ class VehicleDrawer {
   }
 
   drawVehicle(data) {
-    this.vehicle = this.svgCanvas.selectAll("circle").data(this.setData(data));
-    this.vehicle.enter().append("circle");
-    this.vehicle.select("circle");
+    this.vehicle = this.svgCanvas.selectAll("line").data(this.setData(data));
+    this.vehicle.enter().append("line");
+    this.vehicle.select("line");
     this.vehicle
-          .style("fill", "pink")
-          .attr("cx", d => { return d.x;})
-          .attr("cy", d => { return d.y;})
-          .attr("r", 5);
+          .attr("stroke", "pink")
+          .attr("stroke-width", 1)
+          .attr("x1", d => { return d.x1; })
+          .attr("y1", d => { return d.y1; })
+          .attr("x2", d => { return d.x2; })
+          .attr("y2", d => { return d.y2; });
 
     this.vehicle
       .exit()

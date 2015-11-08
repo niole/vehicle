@@ -5,22 +5,19 @@
 //mouse
 //thrust is force that moves the vehical along it's path
 //steer is force tangential to the path
+const CAR_LENGTH = 20;
 
 class Vehicle {
   constructor(width, height, maxVel, updateFreq) {
-    this.pos =
-      {x: Math.round(Math.random()*width),
-        y: Math.round(Math.random()*height)};
-    this.orient = Math.round(Math.random()*360);
-    this.steer =
-      {x: Math.random()*5,
-        y: Math.random()*5};
-     this.thrust =
-       {x: Math.random()*5,
-         y: Math.random()*5};
-     this.maxUpdateVel = maxVel/updateFreq; //max number of px covered per update
-     this.targetX = this.pos.x;
-     this.targetY = this.pos.y;
+    this.x1 = Math.round(Math.random()*width);
+    this.y1 = Math.round(Math.random()*height);
+    this.x2 = this.x1 + CAR_LENGTH;
+    this.y2 = this.y1;
+    this.steer = 0;
+    this.thrust = 0;
+    this.maxUpdateVel = maxVel/updateFreq; //max number of px covered per update
+    this.targetX = this.x1;
+    this.targetY = this.y1;
   }
 
   updateTargetState( x, y) {
@@ -29,12 +26,15 @@ class Vehicle {
   }
 
   updateVehicleState(height, width) {
-    let forceX = this.targetX - this.pos.x;
-    let forceY = this.targetY - this.pos.y;
+    let forceX = this.targetX - this.x1;
+    let forceY = this.targetY - this.y1;
     let xConst = forceX/width;
     let yConst = forceY/height; //will be used to adjust speed to be fraction of max speed
-    this.pos.x += xConst*this.maxUpdateVel;
-    this.pos.y += yConst*this.maxUpdateVel;
+    this.x1 += xConst*this.maxUpdateVel;
+    this.y1 += yConst*this.maxUpdateVel;
+    this.x2 -= xConst*this.maxUpdateVel;
+    this.y2 -= yConst*this.maxUpdateVel;
+
   }
 }
 
