@@ -3,18 +3,17 @@ const d3 = require('d3');
 const Vehicle = require('./vehicle');
 
 class VehicleDrawer {
-  constructor(width, height, maxVel, updateFreq, targetX, targetY) {
+  constructor(width, height, maxVel, updateFreq) {
     const draw = this;
     this.height = height;
     this.width = width;
-    this.updateFreq = updateFreq;
-    this.car = new Vehicle(width, height, maxVel, updateFreq, targetX, targetY);
+    this.car = new Vehicle(width, height, maxVel, updateFreq);
     this.svgCanvas = this.makeCanvas(width, height);
     this.appendRect(width, height);
     this.interval = setInterval(() => {
-      draw.car.updateVehicleState();
-      draw.drawVehicle([draw.car.pos])
-    }, 1000/draw.updateFreq);
+      draw.car.updateVehicleState(draw.height, draw.width);
+      draw.drawVehicle(draw.car.pos)
+    }, 1000/updateFreq);
   }
 
   makeCanvas(width, height) {
@@ -36,8 +35,15 @@ class VehicleDrawer {
             });
   }
 
+  setData(data) {
+    if (!(data instanceof Array)) {
+      return [data];
+    }
+    return data;
+  }
+
   drawVehicle(data) {
-    this.vehicle = this.svgCanvas.selectAll("circle").data(data);
+    this.vehicle = this.svgCanvas.selectAll("circle").data(this.setData(data));
     this.vehicle.enter().append("circle");
     this.vehicle.select("circle");
     this.vehicle

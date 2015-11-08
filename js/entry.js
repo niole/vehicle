@@ -12,7 +12,7 @@ $(document).ready(() => {
   const maxVel = 1000;
   const updateFreq = 100;
 
-  const vehicle = new VehicleDrawer(width, height, maxVel, updateFreq, targetX, targetY);
-  vehicle.drawVehicle([vehicle.car.pos]);
+  const vehicle = new VehicleDrawer(width, height, maxVel, updateFreq);
+  vehicle.drawVehicle(vehicle.car.pos);
 })()
 });
