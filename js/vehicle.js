@@ -26,15 +26,25 @@ class Vehicle {
   }
 
   updateVehicleState(height, width) {
-    let forceX = this.targetX - this.x1;
-    let forceY = this.targetY - this.y1;
-    let xConst = forceX/width;
-    let yConst = forceY/height; //will be used to adjust speed to be fraction of max speed
-    this.x1 += xConst*this.maxUpdateVel;
-    this.y1 += yConst*this.maxUpdateVel;
-    this.x2 -= xConst*this.maxUpdateVel;
-    this.y2 -= yConst*this.maxUpdateVel;
+    this.steer = this.targetX - this.x1;
+    this.thrust = this.targetY - this.y1;
+    let xConst = this.steer/width;
+    let yConst = this.thrust/height; //will be used to adjust speed to be fraction of max speed
+    let dx = xConst*this.maxUpdateVel;
+    let dy = yConst*this.maxUpdateVel;
+    this.x1 += dx;
+    this.y1 += dy
+    this.setTailVal(this.x1, this.y1, dx, dy);
+  }
 
+  setTailVal(x1, y1, dx, dy) {
+   //gets hypotenuse of mini triangle, gets
+   //number of times it goes into car length,
+   //then subtracts the respective sides by that constanct
+   let miniHyp = Math.sqrt((Math.pow(dx, 2) + Math.pow(dy, 2)));
+   let K = CAR_LENGTH/miniHyp;
+   this.x2 -= dx;
+   this.y2 -= dy;
   }
 }
 
